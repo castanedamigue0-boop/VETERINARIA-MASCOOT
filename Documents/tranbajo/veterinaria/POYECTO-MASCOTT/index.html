@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Clínica Veterinaria Mascott</title>
+  <meta name="description" content="Clínica Veterinaria Mascott – Consultas, vacunación, estética canina y tienda de mascotas." />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="icon" href="logo-mascott-removebg-preview.png"/>
+  <style>
+    #splash {
+      position:fixed; inset:0; background:linear-gradient(135deg,#0d47a1,#1976d2);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      z-index:9999; transition:opacity .6s ease, visibility .6s ease;
+    }
+    #splash.hide { opacity:0; visibility:hidden; }
+    .splash-logo {
+      width:90px; height:90px; object-fit:contain;
+      animation:splashBounce .8s ease-in-out infinite alternate;
+    }
+    .splash-title {
+      color:#fff; font-size:2.2rem; font-weight:800; margin-top:1rem;
+      letter-spacing:2px; opacity:0; animation:splashFadeIn .6s ease .4s forwards;
+    }
+    .splash-sub {
+      color:rgba(255,255,255,.7); font-size:.95rem; margin-top:.4rem;
+      opacity:0; animation:splashFadeIn .6s ease .7s forwards;
+    }
+    .splash-bar {
+      width:160px; height:4px; background:rgba(255,255,255,.2);
+      border-radius:4px; margin-top:2rem; overflow:hidden;
+      opacity:0; animation:splashFadeIn .4s ease .9s forwards;
+    }
+    .splash-bar-fill {
+      height:100%; background:#fff; border-radius:4px;
+      animation:splashLoad 1.4s ease 1s forwards;
+      width:0;
+    }
+    @keyframes splashBounce { from{transform:translateY(0) scale(1)} to{transform:translateY(-16px) scale(1.1)} }
+    @keyframes splashFadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes splashLoad   { from{width:0} to{width:100%} }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH DE BIENVENIDA -->
+  <div id="splash">
+    <img src="../logoo.png" alt="Logo Mascott" class="splash-logo"/>
+    <p class="splash-title">Mascott</p>
+    <p class="splash-sub">Clínica Veterinaria</p>
+    <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+  </div>
+
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('splash').classList.add('hide');
+      }, 2400);
+    });
+  </script>
+
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- OVERLAY sidebar móvil -->
+  <div class="sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menú lateral">
+    <div class="sidebar-header">
+      <a href="#inicio" class="logo" aria-label="Clínica Veterinaria Mascott">
+        <img src="../logoo.png" alt="Mascott" style="width:32px;height:32px;object-fit:contain;"/>
+        <span>Mascott</span>
+      </a>
+    </div>
+
+    <nav>
+      <ul class="sidebar-links" role="list">
+        <li><a href="#inicio"    class="sidebar-link active"><span aria-hidden="true">🏠</span> Inicio</a></li>
+        <li><a href="#servicios" class="sidebar-link"><span aria-hidden="true">🩺</span> Servicios</a></li>
+        <li><a href="../tienda.html" class="sidebar-link"><span aria-hidden="true">🛒</span> Tienda</a></li>
+        <li><a href="#resenas"   class="sidebar-link"><span aria-hidden="true">⭐</span> Reseñas</a></li>
+        <li>
+          <button class="sidebar-link sidebar-link-btn" id="btnCitaSidebar" aria-haspopup="dialog">
+            <span aria-hidden="true">📅</span> Agendar Cita
+          </button>
+        </li>
+        <li><a href="#ubicacion" class="sidebar-link"><span aria-hidden="true">📍</span> Ubicación</a></li>
+        <li><a href="#contacto"  class="sidebar-link"><span aria-hidden="true">📞</span> Contacto</a></li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <a href="../tienda.html" class="btn-carrito-sidebar">
+        <span aria-hidden="true">🛒</span> Ver carrito
+      </a>
+      <button class="btn-login" id="btnLogin" aria-haspopup="dialog">
+        <span aria-hidden="true">👤</span> Iniciar Sesión
+      </button>
+      <button class="btn-admin" id="btnAdmin" aria-haspopup="dialog">
+        <span aria-hidden="true">🔐</span> Admin
+      </button>
+    </div>
+  </aside>
+
+  <!-- TOPBAR móvil -->
+  <header class="topbar" role="banner">
+    <button class="menu-toggle" id="menuToggle"
+      aria-controls="sidebar"
+      aria-expanded="false"
+      aria-label="Abrir menú">
+      <span class="hamburger" aria-hidden="true"></span>
+    </button>
+    <a href="#inicio" class="logo topbar-logo" aria-label="Mascott inicio">
+      <img src="../logoo.png" alt="Mascott" style="width:28px;height:28px;object-fit:contain;"/> Mascott
+    </a>
+    <button class="btn-login-top" id="btnLoginTop" aria-haspopup="dialog">
+      <span aria-hidden="true">👤</span>
+    </button>
+    <a href="../tienda.html" class="btn-carrito-top" aria-label="Ir al carrito">
+      🛒
+    </a>
+  </header>
+
+  <!-- MAIN -->
+  <main class="main-content" id="main-content">
+
+    <!-- HERO -->
+    <section class="hero" id="inicio" aria-label="Bienvenida">
+      <div class="hero-overlay" aria-hidden="true"></div>
+      <div class="hero-bg-img" aria-hidden="true"></div>
+      <div class="blob blob1" aria-hidden="true"></div>
+      <div class="blob blob2" aria-hidden="true"></div>
+      <div class="paw-float" aria-hidden="true">🐾</div>
+      <div class="paw-float paw2" aria-hidden="true">🐾</div>
+      <div class="paw-float paw3" aria-hidden="true">🐾</div>
+
+      <div class="hero-content">
+        <span class="hero-badge">Tu mascota merece lo mejor</span>
+        <h1>Cuidamos con amor<br>a tus <strong>Mascotas</strong></h1>
+        <p>Consultas, vacunación, estética y tienda. Todo para el bienestar de tu compañero.</p>
+        <div class="hero-btns">
+          <a href="tel:+573001234567" class="btn-cita">
+            <span aria-hidden="true">📞</span> Llamar ahora
+          </a>
+          <a href="#servicios" class="btn-outline">Ver Servicios</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="Información de disponibilidad">
+        <div class="hcard-top">
+          <span class="hcard-icon" aria-hidden="true">🐾</span>
+          <div>
+            <p class="hcard-label">Próxima cita disponible</p>
+            <p class="hcard-date" id="heroFecha">Cargando...</p>
+          </div>
+          <span class="hcard-badge">HOY</span>
+        </div>
+
+        <div class="hcard-divider" aria-hidden="true"></div>
+
+        <ul class="hcard-stats" role="list">
+          <li>
+            <span class="hcard-stat-icon" aria-hidden="true">🩺</span>
+            <div>
+              <span class="hcard-stat-val" data-target="12">0</span>
+              <span class="hcard-stat-unit">citas hoy</span>
+            </div>
+          </li>
+          <li>
+            <span class="hcard-stat-icon" aria-hidden="true">⏱️</span>
+            <div>
+              <span class="hcard-stat-val" data-target="20">0</span>
+              <span class="hcard-stat-unit">min espera</span>
+            </div>
+          </li>
+          <li>
+            <span class="hcard-stat-icon" aria-hidden="true">👨‍⚕️</span>
+            <div>
+              <span class="hcard-stat-val" data-target="3">0</span>
+              <span class="hcard-stat-unit">vets disponibles</span>
+            </div>
+          </li>
+        </ul>
+
+        <button class="hcard-btn" id="btnCitaCard" aria-haspopup="dialog">
+          <span aria-hidden="true">📅</span> Reservar ahora
+        </button>
+
+        <div class="hcard-pulse" aria-hidden="true"></div>
+      </div>
+
+    </section>
+
+    <!-- STATS -->
+    <section class="stats" aria-label="Estadísticas de la clínica">
+      <div class="stat reveal"><span class="stat-num" data-target="1200">0</span><span>+</span><p>Mascotas atendidas</p></div>
+      <div class="stat reveal"><span class="stat-num" data-target="8">0</span><span>+</span><p>Años de experiencia</p></div>
+      <div class="stat reveal"><span class="stat-num" data-target="5">0</span><span></span><p>Veterinarios especializados</p></div>
+      <div class="stat reveal"><span class="stat-num" data-target="98">0</span><span>%</span><p>Clientes satisfechos</p></div>
+    </section>
+
+    <!-- SERVICIOS -->
+    <section class="section" id="servicios" aria-labelledby="tit-servicios">
+      <h2 class="section-title reveal" id="tit-servicios">Nuestros Servicios</h2>
+      <div class="cards" role="list">
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">🩺</div>
+          <h3>Consulta Médica</h3>
+          <p>Atención veterinaria general y especializada para tu mascota.</p>
+        </article>
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">💉</div>
+          <h3>Vacunación</h3>
+          <p>Plan de vacunas completo para perros y gatos.</p>
+        </article>
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">✂️</div>
+          <h3>Estética Canina</h3>
+          <p>Baño, corte y arreglo profesional para tu perro.</p>
+        </article>
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">🛒</div>
+          <h3>Tienda de Mascotas</h3>
+          <p>Alimentos, accesorios y medicamentos de calidad.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- PRODUCTOS -->
+    <section class="section section-alt" id="productos" aria-labelledby="tit-productos">
+      <h2 class="section-title reveal" id="tit-productos">Productos Destacados</h2>
+      <div class="cards" role="list">
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">🦴</div>
+          <h3>Alimento Premium</h3>
+          <p>Nutrición balanceada para todas las razas y edades.</p>
+          <span class="price" aria-label="Precio 250 pesos">$250 MXN</span>
+        </article>
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">🪮</div>
+          <h3>Kit de Grooming</h3>
+          <p>Todo lo que necesitas para el cuidado en casa.</p>
+          <span class="price" aria-label="Precio 180 pesos">$180 MXN</span>
+        </article>
+        <article class="card reveal" role="listitem">
+          <div class="card-icon-wrap" aria-hidden="true">🎾</div>
+          <h3>Juguetes</h3>
+          <p>Variedad de juguetes para mantener activa a tu mascota.</p>
+          <span class="price" aria-label="Precio 90 pesos">$90 MXN</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- RESEÑAS -->
+    <section class="section" id="resenas" aria-labelledby="tit-resenas">
+      <h2 class="section-title reveal" id="tit-resenas">Lo que dicen nuestros clientes</h2>
+      <div class="reviews-grid">
+        <article class="review-card reveal" aria-label="Reseña de cliente">
+          <div class="stars" aria-label="5 estrellas">★★★★★</div>
+          <p>"Excelente atención, el Dr. fue muy amable con mi perrito Toby. Lo recomiendo al 100%."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">🧑</div>
+            <div>
+              <strong>Carlos M.</strong>
+              <span>Dueño de Toby 🐕</span>
+            </div>
+          </div>
+        </article>
+        <article class="review-card reveal" aria-label="Reseña de cliente">
+          <div class="stars" aria-label="5 estrellas">★★★★★</div>
+          <p>"El servicio de estética dejó a mi gata preciosa. El personal es muy profesional y cariñoso."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">👩</div>
+            <div>
+              <strong>Laura P.</strong>
+              <span>Dueña de Mishi 🐱</span>
+            </div>
+          </div>
+        </article>
+        <article class="review-card reveal" aria-label="Reseña de cliente">
+          <div class="stars" aria-label="4 estrellas">★★★★☆</div>
+          <p>"Muy buena clínica, precios accesibles y atención rápida. Ya es nuestra veterinaria de confianza."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">🧔</div>
+            <div>
+              <strong>Roberto S.</strong>
+              <span>Dueño de Rocky 🐶</span>
+            </div>
+          </div>
+        </article>
+        <article class="review-card reveal" aria-label="Reseña de cliente">
+          <div class="stars" aria-label="5 estrellas">★★★★★</div>
+          <p>"Las vacunas de mis dos perros quedaron al día. El proceso fue rápido y sin estrés para ellos."</p>
+          <div class="reviewer">
+            <div class="reviewer-avatar" aria-hidden="true">👩‍🦱</div>
+            <div>
+              <strong>Ana G.</strong>
+              <span>Dueña de Luna y Sol 🐕🐕</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section class="section" id="ubicacion" aria-labelledby="tit-ubicacion">
+      <h2 class="section-title reveal" id="tit-ubicacion">Nuestra Ubicación</h2>
+      <div class="map-wrapper reveal">
+        <iframe
+          title="Ubicación Clínica Veterinaria Mascott"
+          src="https://maps.google.com/maps?q=Calle+15+%239-54+Sogamoso+Boyaca+Colombia&output=embed&hl=es"
+          width="100%" height="400" style="border:0;" allowfullscreen=""
+          loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div class="map-info">
+          <p><span aria-hidden="true">📍</span> Calle 15 #9-54, Sogamoso, Boyacá</p>
+          <p><span aria-hidden="true">🕐</span> Lun–Sáb: 9:00 am – 7:00 pm</p>
+          <a href="https://maps.google.com/?q=Calle+15+%239-54+Sogamoso+Boyaca+Colombia" target="_blank" rel="noopener noreferrer"
+            class="btn-cita" style="margin-top:1rem; display:inline-flex;">
+            <span aria-hidden="true">🗺️</span> Cómo llegar
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section section-alt" id="contacto" aria-labelledby="tit-contacto">
+      <h2 class="section-title reveal" id="tit-contacto">Contacto</h2>
+      <ul class="contacto-info reveal" role="list">
+        <li><span aria-hidden="true">📍</span> Calle 15 #9-54, Sogamoso, Boyacá</li>
+        <li><span aria-hidden="true">📞</span> <a href="tel:+573001234567">300 123-4567</a></li>
+        <li><span aria-hidden="true">📧</span> <a href="mailto:contacto@mascott.com">contacto@mascott.com</a></li>
+        <li><span aria-hidden="true">🕐</span> Lun–Sáb: 9:00 am – 7:00 pm</li>
+      </ul>
+    </section>
+
+    <footer class="footer" role="contentinfo">
+      <p>© 2026 Clínica Veterinaria Mascott · Todos los derechos reservados</p>
+    </footer>
+
+  </main>
+
+  <!-- MODAL LOGIN -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true"
+    aria-labelledby="modal-title" aria-hidden="true">
+    <div class="modal">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar modal">✕</button>
+      <div class="modal-header">
+        <span aria-hidden="true">🐾</span>
+        <h2 id="modal-title">Iniciar Sesión</h2>
+        <p>Accede a tu cuenta Mascott</p>
+      </div>
+      <form class="modal-form" id="loginForm" novalidate aria-label="Formulario de inicio de sesión">
+        <div class="form-group">
+          <label for="login-email">Correo electrónico</label>
+          <input type="email" id="login-email" name="email" placeholder="correo@ejemplo.com"
+            required aria-required="true" autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label for="login-pass">Contraseña</label>
+          <div class="pass-wrap">
+            <input type="password" id="login-pass" name="password" placeholder="••••••••"
+              required aria-required="true" autocomplete="current-password" />
+            <button type="button" class="toggle-pass" id="togglePass" aria-label="Mostrar contraseña">👁</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-cita" style="width:100%; justify-content:center;">
+          Entrar
+        </button>
+        <p class="modal-footer-text">
+          ¿No tienes cuenta? <a href="#" id="linkRegister">Regístrate</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL CITAS -->
+  <div class="modal-overlay" id="modalCita" role="dialog" aria-modal="true"
+    aria-labelledby="cita-title" aria-hidden="true">
+    <div class="modal modal-wide">
+      <button class="modal-close" id="citaClose" aria-label="Cerrar modal de cita">✕</button>
+      <div class="modal-header">
+        <span aria-hidden="true">📅</span>
+        <h2 id="cita-title">Agendar Cita</h2>
+        <p>Elige fecha, hora y servicio</p>
+      </div>
+      <form class="modal-form" id="formCita" novalidate aria-label="Formulario para agendar cita">
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="c-nombre">Tu nombre</label>
+            <input type="text" id="c-nombre" placeholder="Ej. María García"
+              required aria-required="true" autocomplete="name" />
+            <span class="field-error" id="err-nombre" role="alert" aria-live="polite"></span>
+          </div>
+          <div class="form-group">
+            <label for="c-mascota">Nombre de tu mascota</label>
+            <input type="text" id="c-mascota" placeholder="Ej. Firulais" required aria-required="true" />
+            <span class="field-error" id="err-mascota" role="alert" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="c-servicio">Servicio</label>
+          <select id="c-servicio" required aria-required="true">
+            <option value="">Selecciona un servicio</option>
+            <option value="consulta">🩺 Consulta Médica</option>
+            <option value="vacuna">💉 Vacunación</option>
+            <option value="estetica">✂️ Estética Canina</option>
+            <option value="otro">📋 Otro</option>
+          </select>
+          <span class="field-error" id="err-servicio" role="alert" aria-live="polite"></span>
+        </div>
+
+        <!-- FECHAS DISPONIBLES -->
+        <div class="form-group">
+          <label>Fecha disponible</label>
+          <div class="fechas-grid" id="fechasGrid" role="group" aria-label="Selecciona una fecha disponible"></div>
+          <span class="field-error" id="err-fecha" role="alert" aria-live="polite"></span>
+        </div>
+
+        <!-- HORARIOS -->
+        <div class="form-group" id="horariosWrap" style="display:none">
+          <label>Horario disponible</label>
+          <div class="horarios-grid" id="horariosGrid" role="group" aria-label="Selecciona un horario"></div>
+          <span class="field-error" id="err-hora" role="alert" aria-live="polite"></span>
+        </div>
+
+        <button type="submit" class="btn-cita" style="width:100%; justify-content:center; margin-top:.5rem;">
+          <span aria-hidden="true">✅</span> Confirmar Cita
+        </button>
+      </form>
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <!-- MODAL ADMIN -->
+  <div class="modal-overlay" id="modalAdmin" role="dialog" aria-modal="true"
+    aria-labelledby="admin-title" aria-hidden="true">
+    <div class="modal modal-admin">
+      <button class="modal-close" id="adminClose" aria-label="Cerrar modal admin">✕</button>
+      <div class="modal-header modal-header-admin">
+        <span aria-hidden="true">🔐</span>
+        <h2 id="admin-title">Panel Administrador</h2>
+        <p>Acceso exclusivo para personal Mascott</p>
+      </div>
+      <form class="modal-form" id="adminForm" novalidate aria-label="Formulario de acceso administrador">
+        <div class="form-group">
+          <label for="admin-user">Usuario</label>
+          <input type="text" id="admin-user" placeholder="admin" required aria-required="true" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label for="admin-pass">Contraseña</label>
+          <div class="pass-wrap">
+            <input type="password" id="admin-pass" placeholder="••••••••"
+              required aria-required="true" autocomplete="current-password" />
+            <button type="button" class="toggle-pass" id="toggleAdminPass" aria-label="Mostrar contraseña">👁</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-admin-submit">
+          <span aria-hidden="true">🔓</span> Acceder al Panel
+        </button>
+        <p class="modal-footer-text" style="text-align:center; margin-top:.5rem;">
+          Acceso restringido · Solo personal autorizado
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+  <script>
+    // Corregir rutas desde subcarpeta POYECTO-MASCOTT
+    ['btnLogin','btnLoginTop'].forEach(function(id){
+      var el = document.getElementById(id);
+      if(el){ el.replaceWith(el.cloneNode(true)); }
+      var fresh = document.getElementById(id);
+      if(fresh) fresh.addEventListener('click', function(){ window.location.href='../auth.html'; });
+    });
+    var lr = document.getElementById('linkRegister');
+    if(lr) lr.addEventListener('click', function(e){ e.preventDefault(); window.location.href='../auth.html?tab=register'; });
+    var af = document.getElementById('adminForm');
+    if(af) af.addEventListener('submit', function(e){ e.preventDefault(); window.location.href='../dashboard.html'; });
+  </script>
+</body>
+</html>

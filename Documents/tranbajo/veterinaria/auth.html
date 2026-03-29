@@ -1,0 +1,162 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Acceso · Clínica Veterinaria Macott</title>
+  <meta name="description" content="Inicia sesión o regístrate en Clínica Veterinaria Macott"/>
+  <link rel="stylesheet" href="auth.css"/>
+</head>
+<body>
+
+  <a href="#auth-main" class="skip-link">Saltar al contenido</a>
+
+  <div class="auth-bg" aria-hidden="true">
+    <div class="auth-blob b1"></div>
+    <div class="auth-blob b2"></div>
+    <div class="paw p1">🐾</div>
+    <div class="paw p2">🐾</div>
+    <div class="paw p3">🐾</div>
+  </div>
+
+  <main class="auth-wrap" id="auth-main">
+
+    <a href="index.html" class="back-link" aria-label="Volver al inicio">
+      ← Volver al inicio
+    </a>
+
+    <div class="auth-card">
+
+      <div class="auth-logo">
+        <span aria-hidden="true">🐾</span>
+        <span>Macott</span>
+      </div>
+
+      <!-- TABS -->
+      <div class="auth-tabs" role="tablist" aria-label="Tipo de acceso">
+        <button class="tab active" id="tab-login" role="tab"
+          aria-selected="true" aria-controls="panel-login">
+          Iniciar Sesión
+        </button>
+        <button class="tab" id="tab-register" role="tab"
+          aria-selected="false" aria-controls="panel-register">
+          Registrarse
+        </button>
+      </div>
+
+      <!-- PANEL LOGIN -->
+      <div class="tab-panel active" id="panel-login" role="tabpanel" aria-labelledby="tab-login">
+        <form id="loginForm" novalidate aria-label="Formulario de inicio de sesión">
+
+          <div class="form-group">
+            <label for="l-email">Correo electrónico</label>
+            <input type="email" id="l-email" placeholder="correo@ejemplo.com"
+              required aria-required="true" autocomplete="email"/>
+            <span class="field-error" id="le-email" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="l-pass">Contraseña</label>
+            <div class="pass-wrap">
+              <input type="password" id="l-pass" placeholder="••••••••"
+                required aria-required="true" autocomplete="current-password"/>
+              <button type="button" class="toggle-pass" aria-label="Mostrar contraseña"
+                data-target="l-pass">👁</button>
+            </div>
+            <span class="field-error" id="le-pass" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form-row-check">
+            <label class="check-label">
+              <input type="checkbox" id="l-remember"/> Recordarme
+            </label>
+            <a href="#" class="link-small">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button type="submit" class="btn-auth">
+            <span aria-hidden="true">🔓</span> Entrar
+          </button>
+
+          <div class="form-msg" id="login-msg" role="status" aria-live="polite"></div>
+
+          <p class="auth-switch">
+            ¿No tienes cuenta?
+            <button type="button" class="link-btn" id="goRegister">Regístrate gratis</button>
+          </p>
+        </form>
+      </div>
+
+      <!-- PANEL REGISTRO -->
+      <div class="tab-panel" id="panel-register" role="tabpanel" aria-labelledby="tab-register" hidden>
+        <form id="registerForm" novalidate aria-label="Formulario de registro">
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="r-nombre">Nombre</label>
+              <input type="text" id="r-nombre" placeholder="María"
+                required aria-required="true" autocomplete="given-name"/>
+              <span class="field-error" id="re-nombre" role="alert" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label for="r-apellido">Apellido</label>
+              <input type="text" id="r-apellido" placeholder="García"
+                required aria-required="true" autocomplete="family-name"/>
+              <span class="field-error" id="re-apellido" role="alert" aria-live="polite"></span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="r-email">Correo electrónico</label>
+            <input type="email" id="r-email" placeholder="correo@ejemplo.com"
+              required aria-required="true" autocomplete="email"/>
+            <span class="field-error" id="re-email" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="r-tel">Teléfono</label>
+            <input type="tel" id="r-tel" placeholder="(55) 1234-5678"
+              autocomplete="tel"/>
+          </div>
+
+          <div class="form-group">
+            <label for="r-pass">Contraseña</label>
+            <div class="pass-wrap">
+              <input type="password" id="r-pass" placeholder="Mínimo 6 caracteres"
+                required aria-required="true" autocomplete="new-password"/>
+              <button type="button" class="toggle-pass" aria-label="Mostrar contraseña"
+                data-target="r-pass">👁</button>
+            </div>
+            <span class="field-error" id="re-pass" role="alert" aria-live="polite"></span>
+            <div class="pass-strength" id="passStrength" aria-live="polite"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="r-pass2">Confirmar contraseña</label>
+            <div class="pass-wrap">
+              <input type="password" id="r-pass2" placeholder="Repite tu contraseña"
+                required aria-required="true" autocomplete="new-password"/>
+              <button type="button" class="toggle-pass" aria-label="Mostrar contraseña"
+                data-target="r-pass2">👁</button>
+            </div>
+            <span class="field-error" id="re-pass2" role="alert" aria-live="polite"></span>
+          </div>
+
+          <button type="submit" class="btn-auth">
+            <span aria-hidden="true">✅</span> Crear cuenta
+          </button>
+
+          <div class="form-msg" id="register-msg" role="status" aria-live="polite"></div>
+
+          <p class="auth-switch">
+            ¿Ya tienes cuenta?
+            <button type="button" class="link-btn" id="goLogin">Inicia sesión</button>
+          </p>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tienda · Clínica Veterinaria Macott</title>
+  <meta name="description" content="Tienda de productos para mascotas – Clínica Veterinaria Macott"/>
+  <link rel="stylesheet" href="tienda.css"/>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Saltar al contenido</a>
+
+  <!-- HEADER -->
+  <header class="t-header" role="banner">
+    <a href="index.html" class="t-logo" aria-label="Volver al inicio">
+      <span aria-hidden="true">🐾</span> Macott
+    </a>
+    <nav class="t-nav" aria-label="Navegación tienda">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#servicios">Servicios</a>
+      <a href="tienda.html" aria-current="page">Tienda</a>
+    </nav>
+    <div class="t-header-actions">
+      <button class="btn-carrito" id="btnCarrito" aria-label="Ver carrito" aria-haspopup="true">
+        🛒 <span class="carrito-count" id="carritoCount">0</span>
+      </button>
+      <a href="auth.html" class="btn-login-header">👤 Mi cuenta</a>
+    </div>
+    <button class="t-menu-btn" id="tMenuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  </header>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="t-mobile-menu" id="tMobileMenu" aria-hidden="true">
+    <a href="index.html">Inicio</a>
+    <a href="index.html#servicios">Servicios</a>
+    <a href="tienda.html">Tienda</a>
+    <a href="auth.html">Mi cuenta</a>
+  </div>
+
+  <!-- HERO TIENDA -->
+  <section class="t-hero" aria-label="Bienvenida a la tienda">
+    <div class="t-hero-content">
+      <h1>Tienda <strong>Macott</strong></h1>
+      <p>Todo lo que tu mascota necesita, en un solo lugar.</p>
+      <div class="t-hero-badges">
+        <span>🚚 Envío a domicilio</span>
+        <span>✅ Productos certificados</span>
+        <span>💳 Pago seguro</span>
+      </div>
+    </div>
+  </section>
+
+  <main id="main">
+
+    <!-- BARRA DE BÚSQUEDA -->
+    <div class="t-search-bar">
+      <div class="search-wrap">
+        <span aria-hidden="true">🔍</span>
+        <input type="search" id="searchInput" placeholder="Buscar productos..." aria-label="Buscar productos"/>
+      </div>
+      <span class="result-count" id="resultCount" aria-live="polite"></span>
+    </div>
+
+    <div class="t-layout">
+
+      <!-- SIDEBAR FILTROS -->
+      <aside class="t-sidebar" aria-label="Filtros de productos">
+        <div class="filter-section">
+          <h3>🐾 Animal</h3>
+          <div class="filter-group" role="group" aria-label="Filtrar por animal">
+            <label class="filter-chip active"><input type="radio" name="animal" value="todos" checked/> Todos</label>
+            <label class="filter-chip"><input type="radio" name="animal" value="perro"/> 🐕 Perro</label>
+            <label class="filter-chip"><input type="radio" name="animal" value="gato"/> 🐈 Gato</label>
+            <label class="filter-chip"><input type="radio" name="animal" value="conejo"/> 🐇 Conejo</label>
+            <label class="filter-chip"><input type="radio" name="animal" value="ave"/> 🐦 Ave</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>📦 Categoría</h3>
+          <div class="filter-group" role="group" aria-label="Filtrar por categoría">
+            <label class="filter-chip active"><input type="radio" name="cat" value="todos" checked/> Todos</label>
+            <label class="filter-chip"><input type="radio" name="cat" value="alimento"/> 🦴 Alimento</label>
+            <label class="filter-chip"><input type="radio" name="cat" value="snack"/> 🍖 Snacks</label>
+            <label class="filter-chip"><input type="radio" name="cat" value="accesorio"/> 🎾 Accesorios</label>
+            <label class="filter-chip"><input type="radio" name="cat" value="higiene"/> 🧴 Higiene</label>
+            <label class="filter-chip"><input type="radio" name="cat" value="salud"/> 💊 Salud</label>
+            <label class="filter-chip"><input type="radio" name="cat" value="juguete"/> 🧸 Juguetes</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>🐶 Etapa de vida</h3>
+          <div class="filter-group" role="group" aria-label="Filtrar por etapa de vida">
+            <label class="filter-chip active"><input type="radio" name="etapa" value="todos" checked/> Todas</label>
+            <label class="filter-chip"><input type="radio" name="etapa" value="cachorro"/> 🍼 Cachorro</label>
+            <label class="filter-chip"><input type="radio" name="etapa" value="adulto"/> 🐾 Adulto</label>
+            <label class="filter-chip"><input type="radio" name="etapa" value="senior"/> 👴 Senior</label>
+          </div>
+        </div>
+
+        <div class="filter-section">
+          <h3>💰 Precio</h3>
+          <div class="price-range">
+            <input type="range" id="precioMax" min="50" max="1000" value="1000" step="50"
+              aria-label="Precio máximo"/>
+            <div class="price-labels">
+              <span>$50</span>
+              <span id="precioLabel">$1000</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-limpiar" id="btnLimpiar">✕ Limpiar filtros</button>
+      </aside>
+
+      <!-- GRID PRODUCTOS -->
+      <section aria-labelledby="tit-productos">
+        <h2 class="sr-only" id="tit-productos">Productos</h2>
+        <div class="productos-grid" id="productosGrid" role="list"></div>
+        <p class="no-results" id="noResults" style="display:none" role="status">
+          😕 No encontramos productos con esos filtros.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- PANEL CARRITO -->
+  <div class="carrito-overlay" id="carritoOverlay" aria-hidden="true"></div>
+  <aside class="carrito-panel" id="carritoPanel" role="dialog" aria-modal="true"
+    aria-label="Carrito de compras" aria-hidden="true">
+    <div class="carrito-header">
+      <h2>🛒 Tu carrito</h2>
+      <button class="carrito-close" id="carritoClose" aria-label="Cerrar carrito">✕</button>
+    </div>
+    <div class="carrito-body" id="carritoBody"></div>
+    <div class="carrito-footer">
+      <div class="carrito-total-row">
+        <span>Subtotal</span><span id="carritoSubtotal">$0 MXN</span>
+      </div>
+      <div class="carrito-total-row carrito-total-final">
+        <span>Total</span><strong id="carritoTotal">$0 MXN</strong>
+      </div>
+      <button class="btn-checkout" id="btnCheckout">💳 Proceder al pago</button>
+      <button class="btn-vaciar" id="btnVaciar">🗑 Vaciar carrito</button>
+    </div>
+  </aside>
+
+  <!-- MODAL CHECKOUT -->
+  <div class="modal-overlay" id="checkoutOverlay" role="dialog" aria-modal="true"
+    aria-labelledby="checkout-title" aria-hidden="true">
+    <div class="modal-checkout">
+      <button class="modal-close" id="checkoutClose" aria-label="Cerrar">✕</button>
+      <div id="checkoutContent"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <footer class="t-footer" role="contentinfo">
+    <p>© 2026 Clínica Veterinaria Macott · <a href="index.html">Volver al inicio</a></p>
+  </footer>
+
+  <script src="tienda.js"></script>
+</body>
+</html>

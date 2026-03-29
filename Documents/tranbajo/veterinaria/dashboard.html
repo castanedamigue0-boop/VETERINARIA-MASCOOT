@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Cuenta · Clínica Veterinaria Macott</title>
+  <link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+
+  <a href="#dash-main" class="skip-link">Saltar al contenido</a>
+
+  <aside class="dash-sidebar" id="dashSidebar" role="navigation" aria-label="Menú del panel">
+    <div class="ds-header">
+      <a href="index.html" class="ds-logo"><span aria-hidden="true">🐾</span> Macott</a>
+    </div>
+    <div class="ds-user">
+      <div class="ds-avatar" id="dsAvatar">M</div>
+      <div>
+        <p class="ds-name"  id="dsName">Usuario</p>
+        <p class="ds-email" id="dsEmail">correo@ejemplo.com</p>
+      </div>
+    </div>
+    <nav>
+      <ul class="ds-links" role="list">
+        <li><button class="ds-link active" data-section="inicio">  <span>🏠</span> Inicio</button></li>
+        <li><button class="ds-link" data-section="citas">          <span>📅</span> Mis Citas</button></li>
+        <li><button class="ds-link" data-section="mascotas">       <span>🐾</span> Mis Mascotas</button></li>
+        <li><button class="ds-link" data-section="tienda">         <span>🛒</span> Tienda</button></li>
+        <li><button class="ds-link" data-section="inventario">     <span>📦</span> Inventario</button></li>
+        <li><button class="ds-link" data-section="historial">      <span>📋</span> Historial</button></li>
+        <li><button class="ds-link" data-section="perfil">         <span>👤</span> Mi Perfil</button></li>
+      </ul>
+    </nav>
+    <div class="ds-footer">
+      <a href="index.html" class="ds-back-btn"><span>🌐</span> Ver sitio</a>
+      <button class="ds-logout" id="btnLogout"><span>🚪</span> Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <header class="dash-topbar" role="banner">
+    <button class="dash-menu-btn" id="dashMenuBtn" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <span class="dash-topbar-title">🐾 Macott</span>
+    <button class="ds-logout-top" id="btnLogoutTop" aria-label="Cerrar sesión">🚪</button>
+  </header>
+
+  <div class="dash-overlay" id="dashOverlay" aria-hidden="true"></div>
+
+  <main class="dash-main" id="dash-main">
+
+    <!-- INICIO -->
+    <section class="dash-section active" id="sec-inicio">
+      <div class="dash-welcome reveal">
+        <div>
+          <p class="welcome-sub">Bienvenido/a de vuelta,</p>
+          <h1>Hola, <span id="welcomeName">Usuario</span> 👋</h1>
+          <p class="welcome-desc">Aquí tienes un resumen de tu cuenta.</p>
+        </div>
+        <div class="welcome-img" aria-hidden="true">🐶</div>
+      </div>
+      <div class="dash-stats reveal">
+        <div class="dstat"><span class="dstat-icon">📅</span><div><span class="dstat-num" id="statCitas">0</span><p>Citas agendadas</p></div></div>
+        <div class="dstat"><span class="dstat-icon">🐾</span><div><span class="dstat-num" id="statMascotas">0</span><p>Mascotas</p></div></div>
+        <div class="dstat"><span class="dstat-icon">✅</span><div><span class="dstat-num" id="statAtendidas">0</span><p>Visitas completadas</p></div></div>
+        <div class="dstat"><span class="dstat-icon">🛒</span><div><span class="dstat-num" id="statPedidos">0</span><p>Pedidos realizados</p></div></div>
+      </div>
+      <div class="dash-grid reveal">
+        <div class="dash-card">
+          <h3>📅 Próxima cita</h3>
+          <div id="proximaCita"></div>
+        </div>
+        <div class="dash-card">
+          <h3>🐾 Mis mascotas</h3>
+          <div id="dashMascotasList" class="mascotas-mini"></div>
+          <button class="btn-dash-outline" id="btnAddMascotaInicio">+ Agregar mascota</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CITAS -->
+    <section class="dash-section" id="sec-citas" hidden>
+      <div class="section-header reveal">
+        <h2>📅 Mis Citas</h2>
+        <button class="btn-dash" id="btnAbrirCita">+ Nueva cita</button>
+      </div>
+      <div id="citasList" class="citas-list reveal"></div>
+      <div class="form-wrap" id="citaFormWrap" style="display:none">
+        <form class="dash-form" id="formNuevaCita" novalidate>
+          <h3>Nueva cita</h3>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="nc-mascota">Mascota</label>
+              <select id="nc-mascota" required><option value="">Selecciona</option></select>
+              <span class="field-error" id="nce-mascota" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="nc-servicio">Servicio</label>
+              <select id="nc-servicio" required>
+                <option value="">Selecciona</option>
+                <option>🩺 Consulta Médica</option>
+                <option>💉 Vacunación</option>
+                <option>✂️ Estética Canina</option>
+                <option>📋 Otro</option>
+              </select>
+              <span class="field-error" id="nce-servicio" role="alert"></span>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="nc-fecha">Fecha</label>
+              <input type="date" id="nc-fecha" required/>
+              <span class="field-error" id="nce-fecha" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="nc-hora">Hora</label>
+              <select id="nc-hora" required>
+                <option value="">Selecciona</option>
+                <option>9:00 am</option><option>9:30 am</option><option>10:00 am</option>
+                <option>10:30 am</option><option>11:00 am</option><option>11:30 am</option>
+                <option>12:00 pm</option><option>4:00 pm</option><option>4:30 pm</option>
+                <option>5:00 pm</option><option>5:30 pm</option><option>6:00 pm</option>
+              </select>
+              <span class="field-error" id="nce-hora" role="alert"></span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="nc-notas">Notas (opcional)</label>
+            <input type="text" id="nc-notas" placeholder="Ej. Traer cartilla de vacunación"/>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-dash">Confirmar cita</button>
+            <button type="button" class="btn-dash-outline" id="btnCancelarCita">Cancelar</button>
+          </div>
+          <div class="form-msg" id="cita-msg" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- MASCOTAS -->
+    <section class="dash-section" id="sec-mascotas" hidden>
+      <div class="section-header reveal">
+        <h2>🐾 Mis Mascotas</h2>
+        <button class="btn-dash" id="btnAbrirMascota">+ Agregar mascota</button>
+      </div>
+      <div id="mascotasList" class="mascotas-grid reveal"></div>
+      <div class="form-wrap" id="mascotaFormWrap" style="display:none">
+        <form class="dash-form" id="formMascota" novalidate>
+          <h3>Nueva mascota</h3>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="m-nombre">Nombre</label>
+              <input type="text" id="m-nombre" placeholder="Ej. Firulais" required/>
+              <span class="field-error" id="me-nombre" role="alert"></span>
+            </div>
+            <div class="form-group">
+              <label for="m-especie">Especie</label>
+              <select id="m-especie" required>
+                <option value="">Selecciona</option>
+                <option value="🐕 Perro">🐕 Perro</option>
+                <option value="🐈 Gato">🐈 Gato</option>
+                <option value="🐇 Conejo">🐇 Conejo</option>
+                <option value="🐦 Ave">🐦 Ave</option>
+                <option value="🐠 Pez">🐠 Pez</option>
+                <option value="🦎 Reptil">🦎 Reptil</option>
+              </select>
+              <span class="field-error" id="me-especie" role="alert"></span>
+            </div>
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="m-raza">Raza</label>
+              <input type="text" id="m-raza" placeholder="Ej. Labrador"/>
+            </div>
+            <div class="form-group">
+              <label for="m-edad">Edad (años)</label>
+              <input type="number" id="m-edad" min="0" max="30" placeholder="3"/>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-dash">Guardar mascota</button>
+            <button type="button" class="btn-dash-outline" id="btnCancelarMascota">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- TIENDA -->
+    <section class="dash-section" id="sec-tienda" hidden>
+      <div class="section-header reveal">
+        <h2>🛒 Tienda Macott</h2>
+        <button class="btn-dash" id="btnVerCarrito">
+          🛒 Carrito <span class="carrito-badge" id="carritoBadge">0</span>
+        </button>
+      </div>
+
+      <!-- FILTROS -->
+      <div class="tienda-filtros reveal">
+        <button class="filtro-btn active" data-cat="todos">Todos</button>
+        <button class="filtro-btn" data-cat="alimento">🦴 Alimento</button>
+        <button class="filtro-btn" data-cat="accesorios">🎾 Accesorios</button>
+        <button class="filtro-btn" data-cat="higiene">🪮 Higiene</button>
+        <button class="filtro-btn" data-cat="salud">💊 Salud</button>
+      </div>
+
+      <div id="productosGrid" class="productos-grid reveal"></div>
+
+      <!-- CARRITO PANEL -->
+      <div class="carrito-panel" id="carritoPanel" style="display:none">
+        <div class="carrito-header">
+          <h3>🛒 Tu carrito</h3>
+          <button class="btn-icon" id="btnCerrarCarrito">✕</button>
+        </div>
+        <div id="carritoItems" class="carrito-items"></div>
+        <div class="carrito-total">
+          <span>Total:</span>
+          <strong id="carritoTotal">$0 MXN</strong>
+        </div>
+        <button class="btn-dash" id="btnComprar" style="width:100%;justify-content:center;">
+          💳 Confirmar pedido
+        </button>
+        <div class="form-msg" id="compra-msg" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- INVENTARIO -->
+    <section class="dash-section" id="sec-inventario" hidden>
+      <div class="section-header reveal">
+        <h2>📦 Inventario</h2>
+        <button class="btn-dash" id="btnExportarInv">⬇ Exportar CSV</button>
+      </div>
+      <div class="inv-search reveal">
+        <input type="search" id="invSearch" placeholder="🔍 Buscar producto..." aria-label="Buscar en inventario"/>
+        <select id="invFiltroAnimal" aria-label="Filtrar por animal">
+          <option value="todos">Todos los animales</option>
+          <option value="perro">🐕 Perro</option>
+          <option value="gato">🐈 Gato</option>
+          <option value="conejo">🐇 Conejo</option>
+          <option value="ave">🐦 Ave</option>
+        </select>
+        <select id="invFiltroCat" aria-label="Filtrar por categoría">
+          <option value="todos">Todas las categorías</option>
+          <option value="alimento">🦴 Alimento</option>
+          <option value="snack">🍖 Snack</option>
+          <option value="accesorio">🎾 Accesorio</option>
+          <option value="higiene">🧴 Higiene</option>
+          <option value="salud">💊 Salud</option>
+          <option value="juguete">🧸 Juguete</option>
+        </select>
+      </div>
+      <div class="inv-table-wrap reveal">
+        <table class="inv-table" id="invTable" aria-label="Tabla de inventario">
+          <thead>
+            <tr>
+              <th>ID</th><th>Producto</th><th>Animal</th><th>Etapa</th>
+              <th>Categoría</th><th>Marca</th><th>Precio</th><th>Precio anterior</th><th>Badge</th>
+            </tr>
+          </thead>
+          <tbody id="invBody"></tbody>
+        </table>
+      </div>
+      <p class="inv-count" id="invCount"></p>
+    </section>
+
+    <!-- HISTORIAL -->
+    <section class="dash-section" id="sec-historial" hidden>
+      <div class="section-header reveal"><h2>📋 Historial</h2></div>
+      <div class="historial-tabs reveal">
+        <button class="htab active" data-htab="citas-hist">Citas</button>
+        <button class="htab" data-htab="pedidos-hist">Pedidos</button>
+      </div>
+      <div id="citas-hist" class="citas-list reveal"></div>
+      <div id="pedidos-hist" class="citas-list reveal" style="display:none"></div>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="dash-section" id="sec-perfil" hidden>
+      <div class="section-header reveal"><h2>👤 Mi Perfil</h2></div>
+      <form class="dash-form reveal" id="formPerfil" novalidate>
+        <div class="perfil-avatar-wrap">
+          <div class="perfil-avatar" id="perfilAvatar">M</div>
+          <div>
+            <p class="perfil-name" id="perfilName">Usuario</p>
+            <p class="perfil-since" id="perfilSince">Miembro desde 2026</p>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group"><label for="p-nombre">Nombre</label><input type="text" id="p-nombre"/></div>
+          <div class="form-group"><label for="p-apellido">Apellido</label><input type="text" id="p-apellido"/></div>
+        </div>
+        <div class="form-group"><label for="p-email">Correo</label><input type="email" id="p-email"/></div>
+        <div class="form-group"><label for="p-tel">Teléfono</label><input type="tel" id="p-tel"/></div>
+        <div class="form-group">
+          <label for="p-pass">Nueva contraseña <small>(dejar vacío para no cambiar)</small></label>
+          <div class="pass-wrap">
+            <input type="password" id="p-pass" placeholder="••••••••" autocomplete="new-password"/>
+            <button type="button" class="toggle-pass" data-target="p-pass" aria-label="Mostrar">👁</button>
+          </div>
+        </div>
+        <button type="submit" class="btn-dash">Guardar cambios</button>
+        <div class="form-msg" id="perfil-msg" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
