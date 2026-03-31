@@ -354,9 +354,36 @@
           <label for="c-servicio">Servicio</label>
           <select id="c-servicio" required aria-required="true">
             <option value="">Selecciona un servicio</option>
-            <option value="consulta">🩺 Consulta Médica</option>
-            <option value="vacuna">💉 Vacunación</option>
-            <option value="estetica">✂️ Estética Canina</option>
+            <optgroup label="🩺 Consultas">
+              <option value="consulta-general">🩺 Consulta General</option>
+              <option value="consulta-especializada">🔬 Consulta Especializada</option>
+            </optgroup>
+            <optgroup label="💉 Prevención">
+              <option value="vacuna">💉 Vacunación</option>
+              <option value="desparasitacion">🪱 Desparasitación</option>
+            </optgroup>
+            <optgroup label="✂️ Estética">
+              <option value="estetica">✂️ Estética Canina</option>
+              <option value="bano">🛁 Baño y Secado</option>
+            </optgroup>
+            <optgroup label="🔬 Diagnóstico">
+              <option value="radiografia">🩻 Radiografía</option>
+              <option value="ecografia">📡 Ecografía</option>
+              <option value="laboratorio">🧪 Análisis de Laboratorio</option>
+            </optgroup>
+            <optgroup label="🏥 Cirugías y Operaciones">
+              <option value="esterilizacion">✂️ Esterilización / Castración</option>
+              <option value="cirugia-general">🏥 Cirugía General</option>
+              <option value="cirugia-ortopedica">🦴 Cirugía Ortopédica</option>
+              <option value="cirugia-dental">🦷 Cirugía Dental</option>
+              <option value="cirugia-ojos">👁️ Cirugía de Ojos</option>
+              <option value="cirugia-tumor">🔪 Extirpación de Tumor</option>
+              <option value="cesarea">🐣 Cesárea</option>
+            </optgroup>
+            <optgroup label="🚑 Urgencias">
+              <option value="urgencia">🚨 Urgencia / Emergencia</option>
+              <option value="hospitalizacion">🏨 Hospitalización</option>
+            </optgroup>
             <option value="otro">📋 Otro</option>
           </select>
           <span class="field-error" id="err-servicio" role="alert" aria-live="polite"></span>

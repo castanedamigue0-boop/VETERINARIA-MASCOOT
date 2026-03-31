@@ -97,9 +97,36 @@
               <label for="nc-servicio">Servicio</label>
               <select id="nc-servicio" required>
                 <option value="">Selecciona</option>
-                <option>🩺 Consulta Médica</option>
-                <option>💉 Vacunación</option>
-                <option>✂️ Estética Canina</option>
+                <optgroup label="🩺 Consultas">
+                  <option>🩺 Consulta General</option>
+                  <option>🔬 Consulta Especializada</option>
+                </optgroup>
+                <optgroup label="💉 Prevención">
+                  <option>💉 Vacunación</option>
+                  <option>🪱 Desparasitación</option>
+                </optgroup>
+                <optgroup label="✂️ Estética">
+                  <option>✂️ Estética Canina</option>
+                  <option>🛁 Baño y Secado</option>
+                </optgroup>
+                <optgroup label="🔬 Diagnóstico">
+                  <option>🩻 Radiografía</option>
+                  <option>📡 Ecografía</option>
+                  <option>🧪 Análisis de Laboratorio</option>
+                </optgroup>
+                <optgroup label="🏥 Cirugías">
+                  <option>✂️ Esterilización / Castración</option>
+                  <option>🏥 Cirugía General</option>
+                  <option>🦴 Cirugía Ortopédica</option>
+                  <option>🦷 Cirugía Dental</option>
+                  <option>👁️ Cirugía de Ojos</option>
+                  <option>🔪 Extirpación de Tumor</option>
+                  <option>🐣 Cesárea</option>
+                </optgroup>
+                <optgroup label="🚑 Urgencias">
+                  <option>🚨 Urgencia / Emergencia</option>
+                  <option>🏨 Hospitalización</option>
+                </optgroup>
                 <option>📋 Otro</option>
               </select>
               <span class="field-error" id="nce-servicio" role="alert"></span>
