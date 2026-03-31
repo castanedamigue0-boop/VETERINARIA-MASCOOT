@@ -110,7 +110,11 @@ document.getElementById('loginForm').addEventListener('submit', e => {
   msg.textContent = `✅ ¡Bienvenido/a ${user.nombre}!`;
 
   Storage.setSession({ nombre: user.nombre, apellido: user.apellido, email: user.email, tel: user.tel });
-  setTimeout(() => { window.location.href = 'dashboard.html'; }, 700);
+  const redirect = sessionStorage.getItem('macott_redirect');
+  sessionStorage.removeItem('macott_redirect');
+  setTimeout(() => {
+    window.location.href = redirect === 'cita' ? 'POYECTO-MASCOTT/index.html#inicio' : 'dashboard.html';
+  }, 700);
 });
 
 // ===== REGISTRO =====
@@ -148,10 +152,13 @@ document.getElementById('registerForm').addEventListener('submit', e => {
   users.push(newUser);
   Storage.saveUsers(users);
   Storage.setSession({ nombre, apellido, email, tel });
-
+  const redirect = sessionStorage.getItem('macott_redirect');
+  sessionStorage.removeItem('macott_redirect');
   const btn = e.target.querySelector('button[type="submit"]');
   btn.disabled = true;
   msg.className = 'form-msg success';
   msg.textContent = `✅ ¡Cuenta creada! Bienvenido/a ${nombre}...`;
-  setTimeout(() => { window.location.href = 'dashboard.html'; }, 900);
+  setTimeout(() => {
+    window.location.href = redirect === 'cita' ? 'POYECTO-MASCOTT/index.html#inicio' : 'dashboard.html';
+  }, 900);
 });

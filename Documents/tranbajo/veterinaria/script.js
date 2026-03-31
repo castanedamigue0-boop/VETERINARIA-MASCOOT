@@ -119,9 +119,41 @@ function closeAllModals() {
   Object.keys(modals).forEach(id => closeModal(id));
 }
 
-// Registrar los tres modales
-registerModal('modalCita',    'btnCitaHero', 'btnCitaSidebar', 'btnCitaCard');
-registerModal('modalAdmin',   'btnAdmin');
+// ===== SESIÓN =====
+function estaLogueado() {
+  return !!localStorage.getItem('macott_session');
+}
+
+function abrirCitaOLogin() {
+  if (estaLogueado()) {
+    openModal('modalCita');
+    buildFechas();
+  } else {
+    // Guardar intención para redirigir de vuelta
+    sessionStorage.setItem('macott_redirect', 'cita');
+    window.location.href = 'auth.html';
+  }
+}
+
+// Registrar modal cita con verificación de sesión
+['btnCitaHero', 'btnCitaSidebar', 'btnCitaCard'].forEach(id => {
+  document.getElementById(id)?.addEventListener('click', abrirCitaOLogin);
+});
+
+// Cerrar modal cita
+const citaOverlay = document.getElementById('modalCita');
+if (citaOverlay) {
+  citaOverlay.querySelector('.modal-close')?.addEventListener('click', () => closeModal('modalCita'));
+  citaOverlay.addEventListener('click', (e) => { if (e.target === citaOverlay) closeModal('modalCita'); });
+  modals['modalCita'] = citaOverlay;
+}
+
+registerModal('modalAdmin', 'btnAdmin');
+
+// Botón Admin → ir directo a admin.html
+document.getElementById('btnAdmin')?.addEventListener('click', () => {
+  window.location.href = 'admin.html';
+});
 
 // Login y registro → redirigir a auth.html
 ['btnLogin', 'btnLoginTop'].forEach(id => {
@@ -252,10 +284,22 @@ function buildHorarios(idx) {
   });
 }
 
-// Construir fechas al abrir el modal de citas
-document.getElementById('btnCitaHero')?.addEventListener('click', buildFechas);
-document.getElementById('btnCitaSidebar')?.addEventListener('click', buildFechas);
-document.getElementById('btnCitaCard')?.addEventListener('click', buildFechas);
+// ===== SESIÓN - ACTUALIZAR UI =====
+(function() {
+  const session = localStorage.getItem('macott_session');
+  if (!session) return;
+  const user = JSON.parse(session);
+
+  // Cambiar botón login por "Mi cuenta"
+  ['btnLogin', 'btnLoginTop'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.innerHTML = `<span aria-hidden="true">👤</span> ${user.nombre}`;
+    btn.onclick = () => { window.location.href = 'dashboard.html'; };
+  });
+})();
+
+// buildFechas se llama desde abrirCitaOLogin()
 
 // ===== FORMULARIO CITAS =====
 document.getElementById('formCita').addEventListener('submit', (e) => {

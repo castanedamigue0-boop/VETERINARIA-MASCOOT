@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Admin · Clínica Veterinaria Mascott</title>
+  <link rel="stylesheet" href="admin.css"/>
+</head>
+<body>
+
+  <!-- LOGIN ADMIN -->
+  <div class="admin-login-wrap" id="adminLoginWrap">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <img src="logoo.png" alt="Mascott" class="admin-logo-img"/>
+        <span>Mascott</span>
+      </div>
+      <h2>Panel Administrador</h2>
+      <p>Acceso exclusivo para personal autorizado</p>
+      <form id="adminLoginForm" novalidate>
+        <div class="form-group">
+          <label for="a-user">Usuario</label>
+          <input type="text" id="a-user" placeholder="admin" required autocomplete="username"/>
+          <span class="field-error" id="ae-user" role="alert"></span>
+        </div>
+        <div class="form-group">
+          <label for="a-pass">Contraseña</label>
+          <div class="pass-wrap">
+            <input type="password" id="a-pass" placeholder="••••••••" required autocomplete="current-password"/>
+            <button type="button" class="toggle-pass" data-target="a-pass" aria-label="Mostrar">👁</button>
+          </div>
+          <span class="field-error" id="ae-pass" role="alert"></span>
+        </div>
+        <button type="submit" class="btn-admin-login">🔓 Acceder al Panel</button>
+        <div class="form-msg" id="admin-login-msg" role="status" aria-live="polite"></div>
+      </form>
+      <a href="index.html" class="back-link">← Volver al sitio</a>
+    </div>
+  </div>
+
+  <!-- PANEL ADMIN -->
+  <div class="admin-panel" id="adminPanel" style="display:none">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="as-header">
+        <div class="as-logo">
+          <img src="logoo.png" alt="Mascott" class="admin-logo-img"/>
+          <span>Mascott Admin</span>
+        </div>
+      </div>
+      <div class="as-admin-info">
+        <div class="as-avatar">A</div>
+        <div>
+          <p class="as-name">Administrador</p>
+          <p class="as-role">Panel de control</p>
+        </div>
+      </div>
+      <nav>
+        <ul class="as-links">
+          <li><button class="as-link active" data-section="dashboard"><span>📊</span> Dashboard</button></li>
+          <li><button class="as-link" data-section="citas"><span>📅</span> Citas</button></li>
+          <li><button class="as-link" data-section="clientes"><span>👥</span> Clientes</button></li>
+          <li><button class="as-link" data-section="inventario"><span>📦</span> Inventario</button></li>
+          <li><button class="as-link" data-section="ventas"><span>💰</span> Ventas</button></li>
+        </ul>
+      </nav>
+      <div class="as-footer">
+        <a href="index.html" class="as-back-btn"><span>🌐</span> Ver sitio</a>
+        <button class="as-logout" id="btnAdminLogout"><span>🚪</span> Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <!-- TOPBAR MÓVIL -->
+    <header class="admin-topbar">
+      <button class="admin-menu-btn" id="adminMenuBtn" aria-label="Menú">☰</button>
+      <span>🔐 Admin Mascott</span>
+      <button class="as-logout-top" id="btnAdminLogoutTop">🚪</button>
+    </header>
+
+    <div class="admin-overlay" id="adminOverlay"></div>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+      <!-- DASHBOARD -->
+      <section class="admin-section active" id="sec-dashboard">
+        <h2 class="admin-title">📊 Dashboard</h2>
+        <div class="admin-stats" id="adminStats"></div>
+        <div class="admin-grid">
+          <div class="admin-card">
+            <h3>📅 Citas pendientes</h3>
+            <div id="dashCitasPendientes"></div>
+          </div>
+          <div class="admin-card">
+            <h3>👥 Últimos clientes</h3>
+            <div id="dashUltimosClientes"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CITAS -->
+      <section class="admin-section" id="sec-citas" hidden>
+        <div class="admin-section-header">
+          <h2 class="admin-title">📅 Gestión de Citas</h2>
+          <div class="citas-filtros">
+            <button class="filtro-btn active" data-estado="todas">Todas</button>
+            <button class="filtro-btn" data-estado="pendiente">Pendientes</button>
+            <button class="filtro-btn" data-estado="confirmada">Confirmadas</button>
+            <button class="filtro-btn" data-estado="cancelada">Canceladas</button>
+          </div>
+        </div>
+        <div id="adminCitasList" class="admin-citas-list"></div>
+      </section>
+
+      <!-- CLIENTES -->
+      <section class="admin-section" id="sec-clientes" hidden>
+        <h2 class="admin-title">👥 Clientes Registrados</h2>
+        <div class="admin-search-wrap">
+          <input type="search" id="clienteSearch" placeholder="🔍 Buscar cliente..." aria-label="Buscar cliente"/>
+        </div>
+        <div id="clientesList" class="clientes-grid"></div>
+      </section>
+
+      <!-- INVENTARIO -->
+      <section class="admin-section" id="sec-inventario" hidden>
+        <div class="admin-section-header">
+          <h2 class="admin-title">📦 Inventario</h2>
+          <button class="btn-admin-action" id="btnAgregarProducto">+ Agregar producto</button>
+        </div>
+
+        <!-- FORM AGREGAR PRODUCTO -->
+        <div class="admin-form-wrap" id="formProductoWrap" style="display:none">
+          <form class="admin-form" id="formProducto" novalidate>
+            <h3>Nuevo producto</h3>
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="p-nombre">Nombre</label>
+                <input type="text" id="p-nombre" placeholder="Ej. Collar Premium" required/>
+                <span class="field-error" id="pe-nombre" role="alert"></span>
+              </div>
+              <div class="form-group">
+                <label for="p-marca">Marca</label>
+                <input type="text" id="p-marca" placeholder="Ej. PetStyle" required/>
+              </div>
+              <div class="form-group">
+                <label for="p-precio">Precio ($)</label>
+                <input type="number" id="p-precio" min="1" placeholder="150" required/>
+                <span class="field-error" id="pe-precio" role="alert"></span>
+              </div>
+            </div>
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="p-animal">Animal</label>
+                <select id="p-animal" required>
+                  <option value="">Selecciona</option>
+                  <option value="perro">🐕 Perro</option>
+                  <option value="gato">🐈 Gato</option>
+                  <option value="conejo">🐇 Conejo</option>
+                  <option value="ave">🐦 Ave</option>
+                  <option value="todos">🐾 Todos</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="p-cat">Categoría</label>
+                <select id="p-cat" required>
+                  <option value="">Selecciona</option>
+                  <option value="alimento">🦴 Alimento</option>
+                  <option value="accesorio">🎾 Accesorio</option>
+                  <option value="higiene">🧴 Higiene</option>
+                  <option value="salud">💊 Salud</option>
+                  <option value="juguete">🧸 Juguete</option>
+                  <option value="snack">🍖 Snack</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="p-badge">Badge</label>
+                <select id="p-badge">
+                  <option value="">Ninguno</option>
+                  <option value="nuevo">Nuevo</option>
+                  <option value="oferta">Oferta</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="p-desc">Descripción</label>
+              <input type="text" id="p-desc" placeholder="Breve descripción del producto"/>
+            </div>
+            <div class="form-actions-admin">
+              <button type="submit" class="btn-admin-action">💾 Guardar producto</button>
+              <button type="button" class="btn-admin-outline" id="btnCancelarProducto">Cancelar</button>
+            </div>
+            <div class="form-msg" id="prod-msg" role="status" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <div class="inv-table-wrap" style="margin-top:1.5rem">
+          <table class="inv-table" aria-label="Inventario">
+            <thead>
+              <tr>
+                <th>ID</th><th>Producto</th><th>Animal</th><th>Categoría</th><th>Marca</th><th>Precio</th><th>Badge</th><th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="adminInvBody"></tbody>
+          </table>
+        </div>
+        <p class="inv-count" id="invCount"></p>
+      </section>
+
+      <!-- VENTAS -->
+      <section class="admin-section" id="sec-ventas" hidden>
+        <h2 class="admin-title">💰 Ventas</h2>
+        <div class="admin-stats" id="ventasStats"></div>
+        <div class="inv-table-wrap" style="margin-top:1.5rem">
+          <table class="inv-table" aria-label="Ventas">
+            <thead>
+              <tr>
+                <th>Pedido</th><th>Cliente</th><th>Fecha</th><th>Productos</th><th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="ventasBody"></tbody>
+          </table>
+        </div>
+        <p class="inv-count" id="ventasCount"></p>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

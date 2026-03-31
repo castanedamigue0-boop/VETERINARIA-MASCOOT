@@ -6,7 +6,7 @@
   <title>Clínica Veterinaria Mascott</title>
   <meta name="description" content="Clínica Veterinaria Mascott – Consultas, vacunación, estética canina y tienda de mascotas." />
   <link rel="stylesheet" href="../style.css" />
-  <link rel="icon" href="logo-mascott-removebg-preview.png"/>
+  <link rel="icon" href="../logoo.png"/>
   <style>
     #splash {
       position:fixed; inset:0; background:linear-gradient(135deg,#0d47a1,#1976d2);
@@ -393,7 +393,7 @@
               required aria-required="true" autocomplete="name" />
             <span class="field-error" id="err-nombre" role="alert" aria-live="polite"></span>
           </div>
-          <div class="form-group">
+          <div class="form-group" style="position:relative;z-index:10;">
             <label for="c-mascota">Nombre de tu mascota</label>
             <input type="text" id="c-mascota" placeholder="Ej. Firulais" required aria-required="true" />
             <span class="field-error" id="err-mascota" role="alert" aria-live="polite"></span>
@@ -404,9 +404,36 @@
           <label for="c-servicio">Servicio</label>
           <select id="c-servicio" required aria-required="true">
             <option value="">Selecciona un servicio</option>
-            <option value="consulta">🩺 Consulta Médica</option>
-            <option value="vacuna">💉 Vacunación</option>
-            <option value="estetica">✂️ Estética Canina</option>
+            <optgroup label="🩺 Consultas">
+              <option value="consulta-general">🩺 Consulta General</option>
+              <option value="consulta-especializada">� Consulta Especializada</option>
+            </optgroup>
+            <optgroup label="💉 Prevención">
+              <option value="vacuna">� Vacunación</option>
+              <option value="desparasitacion">🪱 Desparasitación</option>
+            </optgroup>
+            <optgroup label="✂️ Estética">
+              <option value="estetica">✂️ Estética Canina</option>
+              <option value="bano">🛁 Baño y Secado</option>
+            </optgroup>
+            <optgroup label="🔬 Diagnóstico">
+              <option value="radiografia">🩻 Radiografía</option>
+              <option value="ecografia">📡 Ecografía</option>
+              <option value="laboratorio">🧪 Análisis de Laboratorio</option>
+            </optgroup>
+            <optgroup label="🏥 Cirugías y Operaciones">
+              <option value="esterilizacion">✂️ Esterilización / Castración</option>
+              <option value="cirugia-general">🏥 Cirugía General</option>
+              <option value="cirugia-ortopedica">🦴 Cirugía Ortopédica</option>
+              <option value="cirugia-dental">🦷 Cirugía Dental</option>
+              <option value="cirugia-ojos">👁️ Cirugía de Ojos</option>
+              <option value="cirugia-tumor">🔪 Extirpación de Tumor</option>
+              <option value="cesarea">🐣 Cesárea</option>
+            </optgroup>
+            <optgroup label="🚑 Urgencias">
+              <option value="urgencia">🚨 Urgencia / Emergencia</option>
+              <option value="hospitalizacion">🏨 Hospitalización</option>
+            </optgroup>
             <option value="otro">📋 Otro</option>
           </select>
           <span class="field-error" id="err-servicio" role="alert" aria-live="polite"></span>
@@ -478,8 +505,14 @@
     });
     var lr = document.getElementById('linkRegister');
     if(lr) lr.addEventListener('click', function(e){ e.preventDefault(); window.location.href='../auth.html?tab=register'; });
-    var af = document.getElementById('adminForm');
-    if(af) af.addEventListener('submit', function(e){ e.preventDefault(); window.location.href='../dashboard.html'; });
+
+    // Botón Admin → ir directo a admin.html
+    var btnAdmin = document.getElementById('btnAdmin');
+    if (btnAdmin) {
+      btnAdmin.addEventListener('click', function() {
+        window.location.href = '../admin.html';
+      });
+    }
   </script>
 </body>
 </html>

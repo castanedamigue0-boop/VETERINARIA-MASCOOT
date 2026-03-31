@@ -140,13 +140,31 @@ function renderInicio() {
 
 // ===== CITAS =====
 function renderCitas() {
-  var list       = document.getElementById('citasList');
-  var pendientes = userData.citas.filter(function(c) { return c.estado === 'pendiente'; });
-  list.innerHTML = pendientes.length
-    ? pendientes.map(function(c) {
-        return '<div class="cita-item"><div class="cita-info"><h4>' + c.servicio + '</h4><p>' + c.mascota + ' | ' + c.fecha + ' ' + c.hora + (c.notas ? ' | ' + c.notas : '') + '</p></div><div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap"><span class="cita-badge badge-pendiente">Pendiente</span><button class="btn-icon" data-action="cancelar" data-id="' + c.id + '">Cancelar</button></div></div>';
+  var list = document.getElementById('citasList');
+
+  // Recargar datos frescos del storage
+  userData = Storage.getUserData(session.email) || userData;
+  if (!userData.citas) userData.citas = [];
+
+  var citas = userData.citas;
+  list.innerHTML = citas.length
+    ? citas.map(function(c) {
+        var badgeClass = c.estado === 'confirmada' ? 'badge-completada' : c.estado === 'cancelada' ? 'badge-cancelada' : 'badge-pendiente';
+        var badgeText  = c.estado === 'confirmada' ? '✅ Confirmada' : c.estado === 'cancelada' ? '❌ Cancelada' : '⏳ Pendiente';
+        var cancelBtn  = c.estado === 'pendiente'
+          ? '<button class="btn-icon" data-action="cancelar" data-id="' + c.id + '">Cancelar</button>'
+          : '';
+        return '<div class="cita-item ' + (c.estado !== 'pendiente' ? c.estado : '') + '">' +
+          '<div class="cita-info">' +
+            '<h4>' + c.servicio + '</h4>' +
+            '<p>🐾 ' + c.mascota + ' &nbsp;|&nbsp; 📅 ' + c.fecha + ' &nbsp;·&nbsp; 🕐 ' + c.hora + (c.notas ? ' &nbsp;|&nbsp; 📝 ' + c.notas : '') + '</p>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap">' +
+            '<span class="cita-badge ' + badgeClass + '">' + badgeText + '</span>' +
+            cancelBtn +
+          '</div></div>';
       }).join('')
-    : '<p class="empty-msg">No tienes citas pendientes.</p>';
+    : '<p class="empty-msg">No tienes citas registradas.</p>';
 
   list.querySelectorAll('[data-action="cancelar"]').forEach(function(btn) {
     btn.addEventListener('click', function() {
@@ -161,7 +179,6 @@ function renderCitas() {
     var open = wrap.style.display === 'none';
     wrap.style.display = open ? 'block' : 'none';
     if (open) {
-      poblarSelectMascotas('nc-mascota');
       var manana = new Date(); manana.setDate(manana.getDate() + 1);
       document.getElementById('nc-fecha').min = manana.toISOString().split('T')[0];
     }
@@ -171,13 +188,7 @@ function renderCitas() {
   };
 }
 
-function poblarSelectMascotas(id) {
-  var sel = document.getElementById(id);
-  sel.innerHTML = '<option value="">Selecciona</option>' +
-    (userData.mascotas.length
-      ? userData.mascotas.map(function(m) { return '<option value="' + m.nombre + '">' + m.especie.split(' ')[0] + ' ' + m.nombre + '</option>'; }).join('')
-      : '<option disabled>Primero agrega una mascota</option>');
-}
+// poblarSelectMascotas eliminado — campo es input de texto libre
 
 document.getElementById('formNuevaCita').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -524,6 +535,55 @@ function vld(input, errId, msg) {
   input.classList.remove('invalid'); if (err) err.textContent = ''; return true;
 }
 
+// ===== NOTIFICACIONES =====
+function renderNotificaciones() {
+  var notifs = JSON.parse(localStorage.getItem('macott_notif_' + userData.email) || '[]');
+  if (!notifs.length) return;
+
+  // Mostrar badge en sidebar
+  var citasBtn = document.querySelector('.ds-link[data-section="citas"]');
+  var noLeidas = notifs.filter(function(n) { return !n.leida; }).length;
+  if (citasBtn && noLeidas > 0) {
+    var badge = citasBtn.querySelector('.notif-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'notif-badge';
+      badge.style.cssText = 'background:#e53935;color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;margin-left:auto;';
+      citasBtn.appendChild(badge);
+    }
+    badge.textContent = noLeidas;
+  }
+
+  // Mostrar toast por cada notificación no leída
+  notifs.forEach(function(n, i) {
+    if (!n.leida) {
+      setTimeout(function() {
+        mostrarToastDash(n.msg);
+      }, i * 500);
+      n.leida = true;
+    }
+  });
+  localStorage.setItem('macott_notif_' + userData.email, JSON.stringify(notifs));
+}
+
+function mostrarToastDash(msg) {
+  var t = document.getElementById('dashToast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'dashToast';
+    t.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#0d47a1;color:#fff;padding:.85rem 1.75rem;border-radius:50px;font-size:.9rem;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:transform .3s,opacity .3s;opacity:0;white-space:nowrap;max-width:90vw;text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(function() {
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(80px)';
+  }, 4000);
+}
+
 // ===== INIT =====
 populateUserUI();
 showSection('inicio');
+renderNotificaciones();
