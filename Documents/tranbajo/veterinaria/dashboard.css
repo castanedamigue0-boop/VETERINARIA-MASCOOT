@@ -69,6 +69,7 @@ body {
   z-index: 300;
   box-shadow: 4px 0 24px rgba(0,0,0,.2);
   transition: transform var(--t);
+  overflow: hidden;
 }
 
 .ds-header {
@@ -181,11 +182,12 @@ body {
 }
 
 .ds-footer {
-  padding: 1.25rem;
+  padding: 1rem;
   border-top: 1px solid rgba(255,255,255,.1);
   display: flex;
   flex-direction: column;
   gap: .5rem;
+  flex-shrink: 0;
 }
 
 .ds-back-btn {

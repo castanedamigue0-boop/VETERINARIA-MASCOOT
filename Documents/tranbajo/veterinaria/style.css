@@ -74,8 +74,9 @@ body {
 }
 
 .sidebar-header {
-  padding: 2rem 1.5rem 1.5rem;
+  padding: 1.25rem 1.5rem 1rem;
   border-bottom: 1px solid rgba(255,255,255,.1);
+  flex-shrink: 0;
 }
 
 .logo {
@@ -100,11 +101,12 @@ body {
 
 .sidebar-links {
   list-style: none;
-  padding: 1.5rem 1rem;
+  padding: 1rem .75rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: .25rem;
+  gap: .15rem;
+  overflow-y: auto;
 }
 
 .sidebar-link {
@@ -151,11 +153,13 @@ body {
 }
 
 .sidebar-footer {
-  padding: 1.5rem;
+  padding: 1rem;
   border-top: 1px solid rgba(255,255,255,.1);
   display: flex;
   flex-direction: column;
-  gap: .6rem;
+  gap: .5rem;
+  overflow-y: auto;
+  max-height: 200px;
 }
 
 .btn-login {
